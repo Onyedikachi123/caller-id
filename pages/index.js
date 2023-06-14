@@ -1,53 +1,64 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-const API_KEY = 'KoZDKyNGh0WC8ofmZKwlAv38PF7kH0z2yhqbq8KhmBmsVPkhJwV6uHJVsbqF'; 
-// const apiEndPoint = 'http://localhost:3000/api/proxy/notifications'; 
+const API_KEY = 'KoZDKyNGh0WC8ofmZKwlAv38PF7kH0z2yhqbq8KhmBmsVPkhJwV6uHJVsbqF';
 
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    res.status(405).end();
-    return;
+
+const index = () => {
+  const getNotofications = async () => {
+    try {
+      const response = await axios.get('https://enterprise.calleridrep.com/v1/me/notifications', {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+        }
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  try {
-    const response = await axios.get('https://enterprise.calleridrep.com/v1/me/notifications', {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}` 
-      }
-    });
+  const getMerchants = async () => {
+    try {
+      const res = await axios.post( 'the api here sir' )
 
-    
-    res.status(200).json(response.data);
-  } catch (error) {
-    console.log(error)
-
-    res.status(500).json({ error: error.message });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+
+
+  useEffect(() => {
+    getNotofications()
+    getMerchants()
+  }, [])
   return (
     <>
-     <div className='container'>
-       {/* <h2>You have {notifications.length} on your account</h2>   */}
+      <div className='container'>
+        {/* <h2>You have {notifications.length} on your account</h2>   */}
         <table className='table'>
-           <thead>
+          <thead>
             <tr>
               <th>ID</th>
               <th>title</th>
             </tr>
-           </thead>
-           <tbody>
-              {/* {notifications && Array.isArray(notifications) && notifications.map(notification => (
-                <tr key={notification.id}>
-                  <td>{notification.id}</td>
-                  <td>{notification.title}</td>
-                </tr>
-                
-              ))} */}
-           </tbody>
+          </thead>
+          <tbody>
+            {/* {notifications && Array.isArray(notifications) && notifications.map(notification => (
+            <tr key={notification.id}>
+            <td>{notification.id}</td>
+            <td>{notification.title}</td>
+            </tr>
+            
+          ))} */}
+          </tbody>
         </table>
-     </div>
+      </div>
     </>
   )
 }
 
-// export default Notifications;
+export default index
